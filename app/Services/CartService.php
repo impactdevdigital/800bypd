@@ -78,7 +78,7 @@ class CartService
      */
     public function addProduct(int $productId, int $quantity = 1, ?int $variantId = null): array
     {
-        $product = Product::with(['primaryImage', 'variants'])->where('is_active', true)->findOrFail($productId);
+        $product = Product::with(['primaryImage', 'images', 'category', 'variants'])->where('is_active', true)->findOrFail($productId);
         $cart = $this->getCart();
 
         $variant = null;
@@ -89,7 +89,7 @@ class CartService
         $key = $variant ? "product_{$product->id}_{$variant->id}" : "product_{$product->id}";
         $price = $variant && $variant->price ? (float) $variant->price : (float) ($product->sale_price ?? $product->price);
         $displayName = $variant && $variant->name ? "{$product->name} ({$variant->name})" : $product->name;
-        $imagePath = $product->image_url;
+        $imagePath = $product->card_image_url;
 
         if (isset($cart[$key])) {
             $cart[$key]['quantity'] += $quantity;

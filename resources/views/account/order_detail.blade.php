@@ -1,157 +1,118 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-4xl mx-auto space-y-6 sm:space-y-8">
-    <!-- Navigation & Title Header -->
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+<div class="max-w-4xl mx-auto space-y-5">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
         <div>
-            <a href="{{ route('account.orders') }}" class="text-xs text-[#7C3AED] font-bold hover:underline mb-1 inline-flex items-center gap-1">
+            <a href="{{ route('account.orders') }}" class="text-[13px] text-grape font-bold hover:underline mb-2 inline-flex items-center gap-1">
                 <i class="bi bi-arrow-left"></i> Back to All Orders
             </a>
-            <h1 class="font-whimsical text-2xl sm:text-3xl font-bold text-[#312E81]">Order #{{ $order->order_number }}</h1>
-            <p class="text-xs text-slate-500">Placed on {{ $order->created_at->format('F j, Y \a\t g:i A') }}</p>
+            <h1 class="font-fun text-[28px] sm:text-[38px] font-semibold text-ink leading-tight">Order #{{ $order->order_number }}</h1>
+            <p class="text-[14px] text-slate-500">Placed on {{ $order->created_at->format('F j, Y \a\t g:i A') }}</p>
         </div>
-
-        <button onclick="window.print()" class="bg-purple-100 hover:bg-purple-200 text-[#312E81] font-extrabold px-4 py-2.5 rounded-2xl text-xs flex items-center gap-2 shadow-sm transition border border-purple-300">
-            <i class="bi bi-printer-fill text-[#7C3AED]"></i> Print Order Receipt
+        <button onclick="window.print()" class="bg-white shadow-soft hover:bg-lilac text-ink font-bold px-5 h-11 rounded-full text-[13px] flex items-center gap-2 transition print:hidden">
+            <i class="bi bi-printer-fill text-grape"></i> Print Order Receipt
         </button>
     </div>
 
-    <!-- Status Progress Tracker Bar -->
-    <div class="bg-white p-5 sm:p-6 md:p-8 rounded-3xl border border-purple-200/80 shadow-sm space-y-4">
-        <h3 class="font-whimsical text-lg font-bold text-slate-800">Order Progress</h3>
+    <!-- Progress -->
+    <div class="bg-white p-5 sm:p-8 rounded-[24px] shadow-soft">
+        <h3 class="font-fun text-[20px] font-semibold text-ink mb-4">Order Progress</h3>
         @php
             $statuses = ['pending', 'processing', 'dispatched', 'delivered'];
+            $statusIcons = ['bi-hourglass-split', 'bi-box-seam', 'bi-truck', 'bi-house-heart'];
             $currentIndex = array_search($order->order_status, $statuses);
             if ($currentIndex === false) $currentIndex = 0;
         @endphp
-
-        <div class="relative flex items-center justify-between max-w-2xl mx-auto py-4">
-            <!-- Progress Line background -->
-            <div class="absolute top-1/2 left-0 right-0 h-1 bg-slate-200 -translate-y-1/2 z-0"></div>
-            <div class="absolute top-1/2 left-0 h-1 bg-[#7C3AED] -translate-y-1/2 z-0 transition-all duration-500" style="width: {{ ($currentIndex / (count($statuses) - 1)) * 100 }}%"></div>
-
+        <div class="relative flex items-start justify-between max-w-2xl mx-auto py-4">
+            <div class="absolute top-[38px] left-[6%] right-[6%] h-1.5 bg-lilac rounded-full"></div>
+            <div class="absolute top-[38px] left-[6%] h-1.5 bg-grape rounded-full transition-all duration-500" style="width: {{ ($currentIndex / (count($statuses) - 1)) * 88 }}%"></div>
             @foreach($statuses as $index => $st)
-                @php
-                    $isCompleted = $index <= $currentIndex;
-                    $isCurrent = $index === $currentIndex;
-                @endphp
-                <div class="relative z-10 flex flex-col items-center">
-                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-xs shadow-md transition-all border-2 
-                        {{ $isCompleted ? 'bg-[#7C3AED] text-white border-[#7C3AED]' : 'bg-white text-slate-400 border-slate-300' }}">
+                @php $isCompleted = $index <= $currentIndex; $isCurrent = $index === $currentIndex; @endphp
+                <div class="relative z-10 flex flex-col items-center w-1/4">
+                    <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-base transition-all {{ $isCompleted ? 'bg-grape text-white' : 'bg-white text-slate-400 ring-2 ring-lilac' }} {{ $isCurrent ? 'ring-4 ring-grape/20' : '' }}">
                         @if($isCompleted && !$isCurrent)
                             <i class="bi bi-check-lg"></i>
                         @else
-                            {{ $index + 1 }}
+                            <i class="bi {{ $statusIcons[$index] }}"></i>
                         @endif
                     </div>
-                    <span class="text-[10px] sm:text-[11px] font-bold capitalize mt-2 {{ $isCompleted ? 'text-slate-800' : 'text-slate-400' }}">
-                        {{ $st }}
-                    </span>
+                    <span class="text-[12px] font-bold capitalize mt-2 {{ $isCompleted ? 'text-ink' : 'text-slate-400' }}">{{ $st }}</span>
                 </div>
             @endforeach
         </div>
     </div>
 
-    <!-- Order Items & Pricing Breakdown -->
-    <div class="bg-white p-5 sm:p-6 md:p-8 rounded-3xl border border-purple-200/80 shadow-sm space-y-6">
-        <h3 class="font-whimsical text-xl font-bold text-[#312E81]">Items Purchased</h3>
-
-        <div class="divide-y divide-slate-100">
+    <!-- Items -->
+    <div class="bg-white p-5 sm:p-8 rounded-[24px] shadow-soft">
+        <h3 class="font-fun text-[22px] font-semibold text-ink mb-2">Items Purchased</h3>
+        <div class="divide-y divide-ink/5">
             @foreach($order->items as $item)
-                <div class="py-4 flex justify-between items-center text-xs">
+                <div class="py-4 flex justify-between items-center gap-3 text-[13px]">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-purple-100 text-[#7C3AED] rounded-xl flex items-center justify-center font-bold text-base flex-shrink-0">
-                            <i class="bi bi-box-seam"></i>
+                        <div class="w-11 h-11 {{ $item->bundle_id ? 'bg-peach text-amber-600' : 'bg-lilac text-grape' }} rounded-xl flex items-center justify-center text-base flex-shrink-0">
+                            <i class="bi {{ $item->bundle_id ? 'bi-box2-heart-fill' : 'bi-box-seam' }}"></i>
                         </div>
                         <div>
-                            <p class="font-bold text-slate-900 text-sm flex items-center flex-wrap gap-1.5">
+                            <p class="font-bold text-ink text-[14px] flex items-center flex-wrap gap-1.5">
                                 <span>{{ $item->product_name }}</span>
                                 @if($item->variation_name)
-                                    <span class="text-[10px] bg-purple-100 text-[#7C3AED] px-2 py-0.5 rounded font-bold">{{ $item->variation_name }}</span>
+                                    <span class="text-[11px] bg-lilac text-grape px-2 py-0.5 rounded-full font-bold">{{ $item->variation_name }}</span>
                                 @endif
                                 @if($item->bundle_id)
-                                    <span class="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-black inline-flex items-center gap-1">
-                                        <i class="bi bi-box2-heart-fill text-[#FACC15]"></i> Bundle
-                                    </span>
+                                    <span class="text-[11px] bg-peach text-amber-900 px-2 py-0.5 rounded-full font-bold inline-flex items-center gap-1"><i class="bi bi-box2-heart-fill text-amber-500"></i> Bundle</span>
                                 @endif
                             </p>
                             @if($item->bundle_details)
-                                <p class="text-[11px] text-slate-500 italic mt-0.5 leading-snug">Includes: {{ $item->bundle_details }}</p>
+                                <p class="text-[12px] text-slate-500 mt-0.5 leading-snug">Includes: {{ $item->bundle_details }}</p>
                             @endif
                             <p class="text-slate-500 mt-0.5">Unit Price: <span class="price-convertible" data-price-ngn="{{ $item->price }}">₦{{ number_format($item->price, 2) }}</span> &times; {{ $item->quantity }}</p>
                         </div>
                     </div>
-                    <p class="font-bold text-slate-900 text-sm price-convertible" data-price-ngn="{{ $item->price * $item->quantity }}">₦{{ number_format($item->price * $item->quantity, 2) }}</p>
+                    <p class="font-bold text-ink text-[14px] price-convertible whitespace-nowrap" data-price-ngn="{{ $item->price * $item->quantity }}">₦{{ number_format($item->price * $item->quantity, 2) }}</p>
                 </div>
             @endforeach
         </div>
 
-        <div class="border-t border-slate-200 pt-4 space-y-2 text-xs font-semibold text-slate-600">
-            <div class="flex justify-between">
-                <span>Subtotal</span>
-                <span class="price-convertible" data-price-ngn="{{ $order->subtotal }}">{{ $order->formatted_subtotal }}</span>
-            </div>
-            <div class="flex justify-between">
-                <span>Shipping Fee ({{ $order->shipping_method === 'nationwide_courier' ? 'Nationwide Courier' : 'Lagos Flat Rate' }})</span>
-                <span class="price-convertible" data-price-ngn="{{ $order->shipping_fee }}">₦{{ number_format($order->shipping_fee, 2) }}</span>
-            </div>
+        <div class="border-t border-ink/10 pt-4 mt-2 space-y-2.5 text-[14px] text-slate-600">
+            <div class="flex justify-between"><span>Subtotal</span><span class="price-convertible" data-price-ngn="{{ $order->subtotal }}">{{ $order->formatted_subtotal }}</span></div>
+            <div class="flex justify-between gap-3"><span>Shipping Fee ({{ $order->shipping_method === 'nationwide_courier' ? 'Nationwide Courier' : 'Lagos Flat Rate' }})</span><span class="price-convertible whitespace-nowrap" data-price-ngn="{{ $order->shipping_fee }}">₦{{ number_format($order->shipping_fee, 2) }}</span></div>
             @if($order->discount_amount > 0)
-                <div class="flex justify-between text-[#7C3AED]">
-                    <span>Discount</span>
-                    <span class="price-convertible" data-price-ngn="{{ $order->discount_amount }}">-₦{{ number_format($order->discount_amount, 2) }}</span>
-                </div>
+                <div class="flex justify-between text-grape"><span>Discount</span><span class="price-convertible" data-price-ngn="{{ $order->discount_amount }}">-₦{{ number_format($order->discount_amount, 2) }}</span></div>
             @endif
-            <div class="flex justify-between border-t border-slate-200 pt-3 text-base font-bold text-[#312E81]">
-                <span>Total Paid / Due</span>
-                <span class="price-convertible" data-price-ngn="{{ $order->total_amount }}">{{ $order->formatted_total }}</span>
+            <div class="flex justify-between items-baseline border-t border-ink/10 pt-3 text-ink">
+                <span class="font-bold">Total Paid / Due</span>
+                <span class="price-convertible font-fun font-semibold text-[26px]" data-price-ngn="{{ $order->total_amount }}">{{ $order->formatted_total }}</span>
             </div>
         </div>
     </div>
 
-    <!-- Shipping & Payment Info Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
-        <!-- Shipping Details -->
-        <div class="bg-white p-6 rounded-3xl border border-purple-200/80 shadow-sm space-y-3">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <h4 class="font-whimsical text-base font-bold text-slate-800">Shipping Details</h4>
-                <i class="bi bi-truck text-[#7C3AED] text-lg"></i>
+    <!-- Shipping & Payment -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 text-[13px]">
+        <div class="bg-white p-6 rounded-[24px] shadow-soft space-y-4">
+            <div class="flex items-center justify-between">
+                <h4 class="font-fun text-[18px] font-semibold text-ink">Shipping Details</h4>
+                <span class="w-10 h-10 rounded-xl bg-lilac text-grape flex items-center justify-center"><i class="bi bi-truck"></i></span>
             </div>
-            <div>
-                <p class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Recipient Name</p>
-                <p class="font-bold text-slate-800">{{ $order->customer_name }}</p>
-            </div>
-            <div>
-                <p class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Phone Number</p>
-                <p class="font-bold text-slate-800">{{ $order->customer_phone }}</p>
-            </div>
-            <div>
-                <p class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Delivery Address</p>
-                <p class="font-bold text-slate-800">{{ $order->shipping_address }}, {{ $order->city }}, {{ $order->state }}</p>
-            </div>
+            <div><p class="text-slate-400 font-bold uppercase tracking-wider text-[11px]">Recipient Name</p><p class="font-bold text-ink">{{ $order->customer_name }}</p></div>
+            <div><p class="text-slate-400 font-bold uppercase tracking-wider text-[11px]">Phone Number</p><p class="font-bold text-ink">{{ $order->customer_phone }}</p></div>
+            <div><p class="text-slate-400 font-bold uppercase tracking-wider text-[11px]">Delivery Address</p><p class="font-bold text-ink">{{ $order->shipping_address }}, {{ $order->city }}, {{ $order->state }}</p></div>
             @if($order->special_instructions)
-                <div>
-                    <p class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Delivery Note</p>
-                    <p class="text-slate-700 italic bg-purple-50 p-2.5 rounded-xl border border-purple-100">{{ $order->special_instructions }}</p>
-                </div>
+                <div><p class="text-slate-400 font-bold uppercase tracking-wider text-[11px] mb-1">Delivery Note</p><p class="text-slate-700 bg-lilac p-3 rounded-xl">{{ $order->special_instructions }}</p></div>
             @endif
         </div>
 
-        <!-- Payment Details -->
-        <div class="bg-white p-6 rounded-3xl border border-purple-200/80 shadow-sm space-y-3">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <h4 class="font-whimsical text-base font-bold text-slate-800">Payment Details</h4>
-                <i class="bi bi-credit-card-fill text-[#7C3AED] text-lg"></i>
+        <div class="bg-white p-6 rounded-[24px] shadow-soft space-y-4">
+            <div class="flex items-center justify-between">
+                <h4 class="font-fun text-[18px] font-semibold text-ink">Payment Details</h4>
+                <span class="w-10 h-10 rounded-xl bg-peach text-amber-600 flex items-center justify-center"><i class="bi bi-credit-card-fill"></i></span>
             </div>
+            <div><p class="text-slate-400 font-bold uppercase tracking-wider text-[11px]">Payment Method</p><p class="font-bold text-ink uppercase">{{ str_replace('_', ' ', $order->payment_method) }}</p></div>
             <div>
-                <p class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Payment Method</p>
-                <p class="font-bold text-slate-800 uppercase">{{ str_replace('_', ' ', $order->payment_method) }}</p>
-            </div>
-            <div>
-                <p class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Payment Status</p>
+                <p class="text-slate-400 font-bold uppercase tracking-wider text-[11px]">Payment Status</p>
                 <p class="font-bold">
                     @if($order->payment_status === 'paid')
-                        <span class="text-[#7C3AED] flex items-center gap-1"><i class="bi bi-check-circle-fill"></i> Paid</span>
+                        <span class="text-emerald-700 flex items-center gap-1"><i class="bi bi-check-circle-fill"></i> Paid</span>
                     @elseif($order->payment_status === 'pending_verification')
                         <span class="text-amber-600 flex items-center gap-1"><i class="bi bi-clock-fill"></i> Pending Verification</span>
                     @else
@@ -160,15 +121,12 @@
                 </p>
             </div>
             @if($order->payment_reference)
-                <div>
-                    <p class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Transaction Reference</p>
-                    <p class="font-mono text-slate-700 bg-slate-100 px-2 py-1 rounded inline-block text-[11px]">{{ $order->payment_reference }}</p>
-                </div>
+                <div><p class="text-slate-400 font-bold uppercase tracking-wider text-[11px]">Transaction Reference</p><p class="font-mono text-slate-700 bg-lilac px-2.5 py-1 rounded-lg inline-block text-[12px] mt-1 break-all">{{ $order->payment_reference }}</p></div>
             @endif
             @if($order->bank_transfer_receipt)
                 <div>
-                    <p class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Bank Transfer Receipt</p>
-                    <a href="{{ asset('storage/' . $order->bank_transfer_receipt) }}" target="_blank" class="text-[#7C3AED] font-bold hover:underline flex items-center gap-1 mt-1">
+                    <p class="text-slate-400 font-bold uppercase tracking-wider text-[11px]">Bank Transfer Receipt</p>
+                    <a href="{{ asset('storage/' . $order->bank_transfer_receipt) }}" target="_blank" class="text-grape font-bold hover:underline flex items-center gap-1 mt-1">
                         <i class="bi bi-file-earmark-text-fill"></i> View Uploaded Receipt
                     </a>
                 </div>

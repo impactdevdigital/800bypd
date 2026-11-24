@@ -11,44 +11,44 @@ class HomeController extends Controller
     public function index()
     {
         // 1. Featured Products
-        $featuredProducts = Product::with(['primaryImage', 'category', 'variants'])
+        $featuredProducts = Product::with(['primaryImage', 'images', 'category', 'variants'])
             ->where('is_featured', true)
             ->where('is_active', true)
             ->take(8)
             ->get();
 
         // 2. Active Product Bundles for "Buy Our Bundles" section
-        $bundles = Bundle::with(['items.product.primaryImage', 'items.variant'])
+        $bundles = Bundle::with(['items.product.primaryImage', 'items.product.images', 'items.product.category', 'items.variant'])
             ->where('is_active', true)
             ->orderBy('sort_order', 'asc')
             ->get();
 
         // 3. Products by Four Main Categories
-        $puzzles = Product::with(['primaryImage', 'category', 'variants'])
+        $puzzles = Product::with(['primaryImage', 'images', 'category', 'variants'])
             ->whereHas('category', fn($q) => $q->where('slug', 'jigsaw-puzzles'))
             ->where('is_active', true)
             ->take(6)
             ->get();
 
-        $colouring = Product::with(['primaryImage', 'category', 'variants'])
+        $colouring = Product::with(['primaryImage', 'images', 'category', 'variants'])
             ->whereHas('category', fn($q) => $q->whereIn('slug', ['colouring-books', 'coloring-books']))
             ->where('is_active', true)
             ->take(6)
             ->get();
 
-        $flashcards = Product::with(['primaryImage', 'category', 'variants'])
+        $flashcards = Product::with(['primaryImage', 'images', 'category', 'variants'])
             ->whereHas('category', fn($q) => $q->where('slug', 'flashcards'))
             ->where('is_active', true)
             ->take(6)
             ->get();
 
-        $storybooks = Product::with(['primaryImage', 'category', 'variants'])
+        $storybooks = Product::with(['primaryImage', 'images', 'category', 'variants'])
             ->whereHas('category', fn($q) => $q->whereIn('slug', ['storybooks', 'childrens-story-books']))
             ->where('is_active', true)
             ->take(6)
             ->get();
 
-        $audios = Product::with(['primaryImage', 'category'])
+        $audios = Product::with(['primaryImage', 'images', 'category'])
             ->whereHas('category', fn($q) => $q->where('slug', 'childrens-audios'))
             ->where('is_active', true)
             ->take(4)
@@ -57,7 +57,7 @@ class HomeController extends Controller
         $categories = Category::withCount('products')->get();
 
         // 4. Curated Flagship Bestsellers (one from each primary category)
-        $bestsellers = Product::with(['primaryImage', 'category', 'variants'])
+        $bestsellers = Product::with(['primaryImage', 'images', 'category', 'variants'])
             ->whereIn('slug', [
                 'give-thanks-psalm-107-jigsaw-puzzle',
                 'psalm-23-colouring-book',

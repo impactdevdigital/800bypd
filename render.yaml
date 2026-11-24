@@ -22,6 +22,10 @@ services:
         sync: false
       - key: PAYSTACK_SECRET_KEY
         sync: false
+      - key: SPOTIFY_SHOW_URL
+        sync: false
+      - key: SPOTIFY_EPISODE_URL
+        sync: false
       - key: BANK_NAME
         value: "Guaranty Trust Bank (GTBank)"
       - key: BANK_ACCOUNT_NUMBER

@@ -16,7 +16,20 @@ class ProductImage extends Model
         return $this->belongsTo(Product::class);
     }
 
+    /**
+     * Web-sized (~1400px) display URL; falls back to the original file.
+     */
     public function getUrlAttribute(): string
+    {
+        return \App\Support\Img::lg($this->original_url);
+    }
+
+    public function getSmUrlAttribute(): string
+    {
+        return \App\Support\Img::sm($this->original_url);
+    }
+
+    public function getOriginalUrlAttribute(): string
     {
         if (empty($this->image_path)) {
             return asset('images/products/placeholder.svg');

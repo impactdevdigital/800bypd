@@ -1,79 +1,79 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-md mx-auto my-6 sm:my-10 bg-white p-6 sm:p-8 rounded-3xl border border-purple-200/80 shadow-xl relative overflow-hidden">
-    <!-- Decorative top badge -->
-    <div class="absolute top-0 right-0 bg-[#FACC15] text-[#312E81] font-black text-[10px] uppercase px-4 py-1 rounded-bl-xl font-whimsical">
-        Join 800byPD Family
+<div class="max-w-5xl mx-auto grid lg:grid-cols-2 rounded-[28px] sm:rounded-[36px] overflow-hidden bg-white shadow-soft">
+    <!-- Artwork panel -->
+    <div class="hidden lg:block relative bg-peach">
+        <img src="{{ \App\Support\Img::lg('easy_puzzle_3_cover.jpg') }}" alt="" class="absolute inset-0 w-full h-full object-cover">
+        <span class="absolute left-6 top-6 bg-sun text-ink font-bold text-[12px] uppercase tracking-wider px-4 py-2 rounded-full shadow-soft -rotate-2">Join 800byPD Family</span>
     </div>
 
-    <div class="text-center mb-8">
-        <div class="w-14 h-14 bg-[#312E81] text-[#FACC15] rounded-2xl flex items-center justify-center font-whimsical font-bold text-2xl mx-auto mb-3 shadow-md">
-            8
+    <!-- Form panel -->
+    <div class="p-6 sm:p-12">
+        <div class="mb-8">
+            <span class="lg:hidden inline-block bg-sun text-ink font-bold text-[11px] uppercase tracking-wider px-3 py-1.5 rounded-full mb-4">Join 800byPD Family</span>
+            <h1 class="font-fun text-[32px] sm:text-[40px] font-semibold text-ink leading-tight">Create Account</h1>
+            <p class="text-[14px] text-slate-500 mt-1">Sign up to track your orders & fast-track checkout</p>
         </div>
-        <h1 class="font-whimsical text-3xl font-bold text-[#312E81]">Create Account</h1>
-        <p class="text-xs text-slate-500 mt-1">Sign up to track your orders & fast-track checkout</p>
-    </div>
 
-    @if ($errors->any())
-        <div class="mb-6 bg-rose-50 border border-rose-200 text-rose-800 p-4 rounded-2xl text-xs space-y-1">
-            @foreach ($errors->all() as $error)
-                <p class="flex items-center gap-1.5"><i class="bi bi-exclamation-triangle-fill text-rose-500"></i> {{ $error }}</p>
-            @endforeach
-        </div>
-    @endif
-
-    <form action="{{ route('register') }}" method="POST" class="space-y-4 text-xs font-semibold">
-        @csrf
-
-        <div>
-            <label class="block text-slate-700 font-bold mb-1">Full Name</label>
-            <div class="relative">
-                <input type="text" name="name" value="{{ old('name') }}" required placeholder="e.g. Pastor Paul" class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#7C3AED] focus:outline-none">
-                <i class="bi bi-person-fill absolute left-3.5 top-3.5 text-slate-400 text-sm"></i>
+        @if ($errors->any())
+            <div class="mb-6 bg-rose-50 text-rose-800 p-4 rounded-2xl text-[13px] space-y-1">
+                @foreach ($errors->all() as $error)
+                    <p class="flex items-center gap-1.5"><i class="bi bi-exclamation-triangle-fill text-rose-500"></i> {{ $error }}</p>
+                @endforeach
             </div>
-        </div>
+        @endif
 
-        <div>
-            <label class="block text-slate-700 font-bold mb-1">Email Address</label>
-            <div class="relative">
-                <input type="email" name="email" value="{{ old('email') }}" required placeholder="you@example.com" class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#7C3AED] focus:outline-none">
-                <i class="bi bi-envelope-fill absolute left-3.5 top-3.5 text-slate-400 text-sm"></i>
+        <form action="{{ route('register') }}" method="POST" class="space-y-4">
+            @csrf
+            <div>
+                <label class="field-label">Full Name</label>
+                <div class="relative">
+                    <input type="text" name="name" value="{{ old('name') }}" required placeholder="e.g. Pastor Paul" class="field !pl-11">
+                    <i class="bi bi-person-fill absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                </div>
             </div>
-        </div>
-
-        <div>
-            <label class="block text-slate-700 font-bold mb-1">Phone Number</label>
-            <div class="relative">
-                <input type="text" name="phone" value="{{ old('phone') }}" required placeholder="0816 425 4442" class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#7C3AED] focus:outline-none">
-                <i class="bi bi-telephone-fill absolute left-3.5 top-3.5 text-slate-400 text-sm"></i>
+            <div class="grid sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="field-label">Email Address</label>
+                    <div class="relative">
+                        <input type="email" name="email" value="{{ old('email') }}" required placeholder="you@example.com" class="field !pl-11">
+                        <i class="bi bi-envelope-fill absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    </div>
+                </div>
+                <div>
+                    <label class="field-label">Phone Number</label>
+                    <div class="relative">
+                        <input type="text" name="phone" value="{{ old('phone') }}" required placeholder="0816 425 4442" class="field !pl-11">
+                        <i class="bi bi-telephone-fill absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div>
-            <label class="block text-slate-700 font-bold mb-1">Password</label>
-            <div class="relative">
-                <input type="password" name="password" required placeholder="Minimum 6 characters" class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#7C3AED] focus:outline-none">
-                <i class="bi bi-lock-fill absolute left-3.5 top-3.5 text-slate-400 text-sm"></i>
+            <div class="grid sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="field-label">Password</label>
+                    <div class="relative">
+                        <input type="password" name="password" required placeholder="Minimum 6 characters" class="field !pl-11">
+                        <i class="bi bi-lock-fill absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    </div>
+                </div>
+                <div>
+                    <label class="field-label">Confirm Password</label>
+                    <div class="relative">
+                        <input type="password" name="password_confirmation" required placeholder="Re-enter password" class="field !pl-11">
+                        <i class="bi bi-lock-fill absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    </div>
+                </div>
             </div>
+            <button type="submit" class="w-full bg-ink hover:bg-inkdeep text-white font-bold h-[52px] rounded-full shadow-lift transition flex items-center justify-center gap-2 text-[15px] !mt-6">
+                <i class="bi bi-person-plus-fill text-sun"></i> Create Account
+            </button>
+        </form>
+
+        <div class="mt-8 pt-6 border-t border-ink/10 text-[14px] text-slate-500">
+            Already have an account?
+            <a href="{{ route('login') }}" class="text-grape font-bold hover:underline">Log In Here</a>
         </div>
-
-        <div>
-            <label class="block text-slate-700 font-bold mb-1">Confirm Password</label>
-            <div class="relative">
-                <input type="password" name="password_confirmation" required placeholder="Re-enter password" class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#7C3AED] focus:outline-none">
-                <i class="bi bi-lock-fill absolute left-3.5 top-3.5 text-slate-400 text-sm"></i>
-            </div>
-        </div>
-
-        <button type="submit" class="w-full bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] font-extrabold py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm mt-4">
-            <i class="bi bi-person-plus-fill text-base"></i> Create Account
-        </button>
-    </form>
-
-    <div class="text-center mt-6 pt-6 border-t border-slate-100 text-xs text-slate-500">
-        Already have an account? 
-        <a href="{{ route('login') }}" class="text-[#7C3AED] font-bold hover:underline">Log In Here</a>
     </div>
 </div>
 @endsection

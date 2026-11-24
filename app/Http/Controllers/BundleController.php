@@ -12,7 +12,7 @@ class BundleController extends Controller
      */
     public function index()
     {
-        $bundles = Bundle::with(['items.product.primaryImage', 'items.variant'])
+        $bundles = Bundle::with(['items.product.primaryImage', 'items.product.images', 'items.product.category', 'items.variant'])
             ->where('is_active', true)
             ->orderBy('sort_order', 'asc')
             ->get();

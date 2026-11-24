@@ -10,7 +10,7 @@ class CatalogController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::with(['primaryImage', 'category', 'variants'])->where('is_active', true);
+        $query = Product::with(['primaryImage', 'images', 'category', 'variants'])->where('is_active', true);
 
         // Filter by category
         if ($request->filled('category')) {
@@ -79,12 +79,12 @@ class CatalogController extends Controller
 
     public function show($slug)
     {
-        $productQuery = Product::with(['images', 'category', 'reviews', 'variants'])->where('slug', $slug);
+        $productQuery = Product::with(['primaryImage', 'images', 'category', 'reviews', 'variants'])->where('slug', $slug);
         if (!auth()->check() || !auth()->user()->isAdmin()) {
             $productQuery->where('is_active', true);
         }
         $product = $productQuery->firstOrFail();
-        $relatedProducts = Product::with(['primaryImage', 'variants'])
+        $relatedProducts = Product::with(['primaryImage', 'images', 'category', 'variants'])
             ->where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
             ->where('is_active', true)

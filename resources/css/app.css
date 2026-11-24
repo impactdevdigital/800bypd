@@ -1,0 +1,24 @@
+/*
+ * 800BYPD storefront styles.
+ * Build with: npm run build:css  (writes the minified file to public/css/app.css)
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+}
+
+@layer components {
+    .font-whimsical, .font-fun { font-family: 'Fredoka', cursive, sans-serif; }
+    .scrollbar-none::-webkit-scrollbar { display: none; }
+    .scrollbar-none { scrollbar-width: none; }
+    .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #7C3AED; }
+    .dots-bg { background-image: radial-gradient(#FACC15 1.6px, transparent 1.6px), radial-gradient(#C4B5FD 1.6px, transparent 1.6px); background-size: 42px 42px, 42px 42px; background-position: 0 0, 21px 21px; }
+    .card-img { transition: transform .5s cubic-bezier(.2,.7,.2,1); }
+    .group:hover .card-img { transform: scale(1.04); }
+    .field { width: 100%; background: #fff; border: 1px solid rgba(49,46,129,.14); border-radius: 14px; padding: .8rem 1rem; font-size: 14px; color: #1e293b; transition: border-color .15s, box-shadow .15s; }
+    .field:focus { outline: none; border-color: #7C3AED; box-shadow: 0 0 0 4px rgba(124,58,237,.12); }
+    .field-label { display: block; font-size: 13px; font-weight: 700; color: #312E81; margin-bottom: .4rem; }
+}

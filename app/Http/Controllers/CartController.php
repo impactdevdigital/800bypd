@@ -158,6 +158,7 @@ class CartController extends Controller
                 'raw_name' => $item['raw_name'] ?? ($item['name'] ?? ''),
                 'variation_name' => $item['variation_name'] ?? null,
                 'badge' => $item['badge'] ?? null,
+                'image' => $img,
                 'price' => $price,
                 'formatted_price' => '₦' . number_format($price, 2),
                 'quantity' => $qty,
