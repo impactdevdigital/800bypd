@@ -56,22 +56,22 @@
                         <div class="bg-white rounded-[24px] shadow-lift border border-ink/5 p-3">
                             <div class="px-3 pt-2 pb-2 eyebrow !text-[10px] !text-slate-400">Product Collections</div>
                             <div class="grid grid-cols-2 gap-2">
-                                <a href="{{ route('catalog.index', ['category' => 'jigsaw-puzzles']) }}" class="group/item rounded-2xl overflow-hidden bg-peach hover:ring-2 hover:ring-grape/30 transition">
+                                @if(\App\Models\Category::isSlugActive('jigsaw-puzzles'))<a href="{{ route('catalog.index', ['category' => 'jigsaw-puzzles']) }}" class="group/item rounded-2xl overflow-hidden bg-peach hover:ring-2 hover:ring-grape/30 transition">
                                     <div class="h-20 overflow-hidden"><img src="{{ \App\Support\Img::sm('easy_puzzle_2_cut.jpg') }}" alt="" class="w-full h-full object-cover group-hover/item:scale-105 transition duration-300"></div>
                                     <div class="p-3"><span class="font-bold text-ink block text-[13px]">Jigsaw Puzzles</span><span class="text-[11px] text-slate-500 font-medium">Easy (6 pcs) & 12 pieces</span></div>
-                                </a>
-                                <a href="{{ route('catalog.index', ['category' => 'colouring-books']) }}" class="group/item rounded-2xl overflow-hidden bg-blush hover:ring-2 hover:ring-grape/30 transition">
+                                </a>@endif
+                                @if(\App\Models\Category::isSlugActive('colouring-books'))<a href="{{ route('catalog.index', ['category' => 'colouring-books']) }}" class="group/item rounded-2xl overflow-hidden bg-blush hover:ring-2 hover:ring-grape/30 transition">
                                     <div class="h-20 overflow-hidden flex items-center justify-center p-2"><img src="{{ \App\Support\Img::sm('psalm_23_colouring_book_cover.jpg') }}" alt="" class="h-full object-contain group-hover/item:scale-105 transition duration-300 drop-shadow"></div>
                                     <div class="p-3"><span class="font-bold text-ink block text-[13px]">Colouring Books</span><span class="text-[11px] text-slate-500 font-medium">Creative doodle & premium thick pages</span></div>
-                                </a>
-                                <a href="{{ route('catalog.index', ['category' => 'flashcards']) }}" class="group/item rounded-2xl overflow-hidden bg-lilac hover:ring-2 hover:ring-grape/30 transition">
+                                </a>@endif
+                                @if(\App\Models\Category::isSlugActive('flashcards'))<a href="{{ route('catalog.index', ['category' => 'flashcards']) }}" class="group/item rounded-2xl overflow-hidden bg-lilac hover:ring-2 hover:ring-grape/30 transition">
                                     <div class="h-20 overflow-hidden flex items-center justify-center p-2"><img src="{{ \App\Support\Img::sm('affirmations_flashcards_cover.jpg') }}" alt="" class="h-full object-contain group-hover/item:scale-105 transition duration-300 drop-shadow"></div>
                                     <div class="p-3"><span class="font-bold text-ink block text-[13px]">Flashcards</span><span class="text-[11px] text-slate-500 font-medium">Pocket & Big learning sizes</span></div>
-                                </a>
-                                <a href="{{ route('catalog.index', ['category' => 'storybooks']) }}" class="group/item rounded-2xl overflow-hidden bg-ink hover:ring-2 hover:ring-grape/30 transition">
+                                </a>@endif
+                                @if(\App\Models\Category::isSlugActive('storybooks'))<a href="{{ route('catalog.index', ['category' => 'storybooks']) }}" class="group/item rounded-2xl overflow-hidden bg-ink hover:ring-2 hover:ring-grape/30 transition">
                                     <div class="h-20 overflow-hidden flex items-center justify-center p-2"><img src="{{ asset('images/products/story_little_explorer.svg') }}" alt="" class="h-full object-contain group-hover/item:scale-105 transition duration-300"></div>
                                     <div class="p-3 bg-white"><span class="font-bold text-ink block text-[13px]">Storybooks</span><span class="text-[11px] text-slate-500 font-medium">Illustrated bedtime adventures</span></div>
-                                </a>
+                                </a>@endif
                             </div>
                             <a href="{{ route('catalog.index') }}" class="mt-2 flex items-center justify-between px-4 py-3 rounded-2xl hover:bg-lilac text-grape font-bold text-[13px] transition">
                                 <span class="flex items-center gap-2"><i class="bi bi-grid-fill"></i> View All Products</span>
@@ -168,22 +168,22 @@
             <div>
                 <span class="eyebrow !text-[10px] !text-slate-400 px-1 block mb-2">Collections & Categories</span>
                 <div class="grid grid-cols-2 gap-2.5">
-                    <a href="{{ route('catalog.index', ['category' => 'jigsaw-puzzles']) }}" class="rounded-2xl overflow-hidden bg-white shadow-soft">
+                    @if(\App\Models\Category::isSlugActive('jigsaw-puzzles'))<a href="{{ route('catalog.index', ['category' => 'jigsaw-puzzles']) }}" class="rounded-2xl overflow-hidden bg-white shadow-soft">
                         <div class="h-20 bg-peach overflow-hidden"><img src="{{ \App\Support\Img::sm('easy_puzzle_2_cut.jpg') }}" alt="" class="w-full h-full object-cover"></div>
                         <div class="px-3 py-2"><span class="block text-ink font-bold text-[13px]">Puzzles</span><span class="text-[11px] text-slate-400">6 & 12 pcs</span></div>
-                    </a>
-                    <a href="{{ route('catalog.index', ['category' => 'colouring-books']) }}" class="rounded-2xl overflow-hidden bg-white shadow-soft">
+                    </a>@endif
+                    @if(\App\Models\Category::isSlugActive('colouring-books'))<a href="{{ route('catalog.index', ['category' => 'colouring-books']) }}" class="rounded-2xl overflow-hidden bg-white shadow-soft">
                         <div class="h-20 bg-blush flex items-center justify-center p-2"><img src="{{ \App\Support\Img::sm('psalm_23_colouring_book_cover.jpg') }}" alt="" class="h-full object-contain"></div>
                         <div class="px-3 py-2"><span class="block text-ink font-bold text-[13px]">Colouring</span><span class="text-[11px] text-slate-400">Doodle Books</span></div>
-                    </a>
-                    <a href="{{ route('catalog.index', ['category' => 'flashcards']) }}" class="rounded-2xl overflow-hidden bg-white shadow-soft">
+                    </a>@endif
+                    @if(\App\Models\Category::isSlugActive('flashcards'))<a href="{{ route('catalog.index', ['category' => 'flashcards']) }}" class="rounded-2xl overflow-hidden bg-white shadow-soft">
                         <div class="h-20 bg-lilac flex items-center justify-center p-2"><img src="{{ \App\Support\Img::sm('affirmations_flashcards_cover.jpg') }}" alt="" class="h-full object-contain"></div>
                         <div class="px-3 py-2"><span class="block text-ink font-bold text-[13px]">Flashcards</span><span class="text-[11px] text-slate-400">Pocket & Big</span></div>
-                    </a>
-                    <a href="{{ route('catalog.index', ['category' => 'storybooks']) }}" class="rounded-2xl overflow-hidden bg-white shadow-soft">
+                    </a>@endif
+                    @if(\App\Models\Category::isSlugActive('storybooks'))<a href="{{ route('catalog.index', ['category' => 'storybooks']) }}" class="rounded-2xl overflow-hidden bg-white shadow-soft">
                         <div class="h-20 bg-ink flex items-center justify-center p-2"><img src="{{ asset('images/products/story_little_explorer.svg') }}" alt="" class="h-full object-contain"></div>
                         <div class="px-3 py-2"><span class="block text-ink font-bold text-[13px]">Storybooks</span><span class="text-[11px] text-slate-400">Bedtime Tales</span></div>
-                    </a>
+                    </a>@endif
                 </div>
             </div>
 

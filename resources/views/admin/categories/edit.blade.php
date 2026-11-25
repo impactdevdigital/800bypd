@@ -54,6 +54,15 @@
             <textarea name="description" rows="4" placeholder="Brief summary of products in this category..." class="w-full border border-slate-300 px-3.5 py-3 rounded-xl focus:ring-2 focus:ring-[#7C3AED] focus:outline-none leading-relaxed">{{ old('description', $category->description) }}</textarea>
         </div>
 
+        <label class="flex items-start gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-200 cursor-pointer">
+            <input type="hidden" name="is_active" value="0">
+            <input type="checkbox" name="is_active" value="1" {{ old('is_active', $category->is_active) ? 'checked' : '' }} class="mt-0.5 w-4 h-4 accent-[#7C3AED]">
+            <span>
+                <span class="block text-slate-800 font-bold">Show this category on the store</span>
+                <span class="block text-[11px] text-slate-500 font-medium mt-0.5">When switched off, the category and its products are hidden from customers (menus, catalogue, homepage and product pages). Nothing is deleted, and you can switch it back on any time.</span>
+            </span>
+        </label>
+
         <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
             <a href="{{ route('admin.categories.index') }}" class="px-5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 transition font-bold">
                 Cancel

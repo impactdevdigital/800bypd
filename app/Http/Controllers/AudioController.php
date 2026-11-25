@@ -13,7 +13,7 @@ class AudioController extends Controller
             ->whereHas('category', function($q) {
                 $q->where('slug', 'childrens-audios');
             })
-            ->where('is_active', true)
+            ->where('is_active', true)->inActiveCategory()
             ->latest()
             ->paginate(12);
 

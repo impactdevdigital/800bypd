@@ -16,9 +16,9 @@
     $collageBg = ($index ?? 0) % 2 === 0 ? 'bg-peach' : 'bg-lilac';
 @endphp
 
-<div data-bundle-index="{{ $index ?? 0 }}" class="snap-center shrink-0 w-[86vw] max-w-[420px] lg:w-auto lg:max-w-none bg-cream text-slate-800 rounded-[24px] overflow-hidden flex flex-col {{ $compact ? 'sm:flex-row' : '' }} {{ $compact ? '' : 'shadow-soft' }}">
+<div data-bundle-index="{{ $index ?? 0 }}" class="snap-center shrink-0 w-[86vw] max-w-[420px] lg:w-auto lg:max-w-none bg-cream text-slate-800 rounded-[24px] overflow-hidden flex flex-col {{ $compact ? 'xl:flex-row' : '' }} {{ $compact ? '' : 'shadow-soft' }}">
     <!-- Collage of what's inside -->
-    <div class="{{ $compact ? 'sm:w-[46%] min-h-[220px]' : 'h-64 sm:h-72' }} {{ $collageBg }} relative overflow-hidden flex-shrink-0">
+    <div class="{{ $compact ? 'h-56 xl:h-auto xl:w-[40%] xl:min-h-[300px]' : 'h-64 sm:h-72' }} {{ $collageBg }} relative overflow-hidden flex-shrink-0">
         @if($collage->isNotEmpty())
             @foreach($collage as $i => $img)
                 <img src="{{ $img }}" alt="" loading="lazy" class="absolute {{ $positions[$i] }} w-auto rounded-xl shadow-lift {{ $rotations[$i] }} object-cover ring-4 ring-white" onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
@@ -36,7 +36,7 @@
         </span>
     </div>
 
-    <div class="flex-1 p-5 sm:p-6 flex flex-col">
+    <div class="flex-1 min-w-0 p-6 sm:p-7 flex flex-col">
         @if($compact)
             <span class="text-[12px] font-bold text-grape mb-1">Best for Ages 2–7</span>
         @else
@@ -73,7 +73,7 @@
             </div>
         </details>
 
-        <div class="mt-auto flex items-center justify-between gap-3 pt-4 border-t border-ink/10">
+        <div class="mt-auto flex flex-wrap items-end justify-between gap-x-4 gap-y-3 pt-5 border-t border-ink/10">
             <div>
                 <span class="text-[11px] text-slate-400 font-semibold block">{{ $compact ? 'Bundle Price:' : 'All-in-One Price' }}</span>
                 <span class="font-fun text-[26px] sm:text-[28px] font-semibold text-ink price-convertible leading-none" data-price-ngn="{{ $bundle->price }}">{{ $bundle->formatted_price }}</span>

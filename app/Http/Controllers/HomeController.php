@@ -13,7 +13,7 @@ class HomeController extends Controller
         // 1. Featured Products
         $featuredProducts = Product::with(['primaryImage', 'images', 'category', 'variants'])
             ->where('is_featured', true)
-            ->where('is_active', true)
+            ->where('is_active', true)->inActiveCategory()
             ->take(8)
             ->get();
 
@@ -26,35 +26,35 @@ class HomeController extends Controller
         // 3. Products by Four Main Categories
         $puzzles = Product::with(['primaryImage', 'images', 'category', 'variants'])
             ->whereHas('category', fn($q) => $q->where('slug', 'jigsaw-puzzles'))
-            ->where('is_active', true)
+            ->where('is_active', true)->inActiveCategory()
             ->take(6)
             ->get();
 
         $colouring = Product::with(['primaryImage', 'images', 'category', 'variants'])
             ->whereHas('category', fn($q) => $q->whereIn('slug', ['colouring-books', 'coloring-books']))
-            ->where('is_active', true)
+            ->where('is_active', true)->inActiveCategory()
             ->take(6)
             ->get();
 
         $flashcards = Product::with(['primaryImage', 'images', 'category', 'variants'])
             ->whereHas('category', fn($q) => $q->where('slug', 'flashcards'))
-            ->where('is_active', true)
+            ->where('is_active', true)->inActiveCategory()
             ->take(6)
             ->get();
 
         $storybooks = Product::with(['primaryImage', 'images', 'category', 'variants'])
             ->whereHas('category', fn($q) => $q->whereIn('slug', ['storybooks', 'childrens-story-books']))
-            ->where('is_active', true)
+            ->where('is_active', true)->inActiveCategory()
             ->take(6)
             ->get();
 
         $audios = Product::with(['primaryImage', 'images', 'category'])
             ->whereHas('category', fn($q) => $q->where('slug', 'childrens-audios'))
-            ->where('is_active', true)
+            ->where('is_active', true)->inActiveCategory()
             ->take(4)
             ->get();
 
-        $categories = Category::withCount('products')->get();
+        $categories = Category::active()->withCount('products')->get();
 
         // 4. Curated Flagship Bestsellers (one from each primary category)
         $bestsellers = Product::with(['primaryImage', 'images', 'category', 'variants'])
@@ -64,7 +64,7 @@ class HomeController extends Controller
                 'affirmations-flashcards',
                 'adventures-of-the-little-explorer'
             ])
-            ->where('is_active', true)
+            ->where('is_active', true)->inActiveCategory()
             ->get();
 
         if ($bestsellers->count() < 4) {

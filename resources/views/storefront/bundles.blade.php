@@ -36,18 +36,18 @@
             <i class="bi bi-box2-heart-fill text-sun"></i> Curated Bundles
             <span class="text-[10px] bg-white/15 text-sun px-2 py-0.5 rounded-full font-bold">{{ $bundles->count() }} Packages</span>
         </a>
-        <a href="{{ route('catalog.index', ['category' => 'jigsaw-puzzles']) }}" class="h-11 px-5 rounded-full text-[13px] font-bold flex items-center gap-2 bg-white text-ink shadow-soft hover:bg-lilac transition">
+        @if(\App\Models\Category::isSlugActive('jigsaw-puzzles'))<a href="{{ route('catalog.index', ['category' => 'jigsaw-puzzles']) }}" class="h-11 px-5 rounded-full text-[13px] font-bold flex items-center gap-2 bg-white text-ink shadow-soft hover:bg-lilac transition">
             <i class="bi bi-puzzle-fill text-amber-500"></i> Jigsaw Puzzles
-        </a>
-        <a href="{{ route('catalog.index', ['category' => 'colouring-books']) }}" class="h-11 px-5 rounded-full text-[13px] font-bold flex items-center gap-2 bg-white text-ink shadow-soft hover:bg-lilac transition">
+        </a>@endif
+        @if(\App\Models\Category::isSlugActive('colouring-books'))<a href="{{ route('catalog.index', ['category' => 'colouring-books']) }}" class="h-11 px-5 rounded-full text-[13px] font-bold flex items-center gap-2 bg-white text-ink shadow-soft hover:bg-lilac transition">
             <i class="bi bi-palette-fill text-pink-500"></i> Colouring Books
-        </a>
-        <a href="{{ route('catalog.index', ['category' => 'flashcards']) }}" class="h-11 px-5 rounded-full text-[13px] font-bold flex items-center gap-2 bg-white text-ink shadow-soft hover:bg-lilac transition">
+        </a>@endif
+        @if(\App\Models\Category::isSlugActive('flashcards'))<a href="{{ route('catalog.index', ['category' => 'flashcards']) }}" class="h-11 px-5 rounded-full text-[13px] font-bold flex items-center gap-2 bg-white text-ink shadow-soft hover:bg-lilac transition">
             <i class="bi bi-card-text text-indigo-500"></i> Flashcards
-        </a>
-        <a href="{{ route('catalog.index', ['category' => 'storybooks']) }}" class="h-11 px-5 rounded-full text-[13px] font-bold flex items-center gap-2 bg-white text-ink shadow-soft hover:bg-lilac transition">
+        </a>@endif
+        @if(\App\Models\Category::isSlugActive('storybooks'))<a href="{{ route('catalog.index', ['category' => 'storybooks']) }}" class="h-11 px-5 rounded-full text-[13px] font-bold flex items-center gap-2 bg-white text-ink shadow-soft hover:bg-lilac transition">
             <i class="bi bi-book-half text-emerald-500"></i> Storybooks
-        </a>
+        </a>@endif
     </div>
 </div>
 

@@ -132,6 +132,7 @@
                             <th class="p-3.5 whitespace-nowrap">Slug</th>
                             <th class="p-3.5 whitespace-nowrap">Parent</th>
                             <th class="p-3.5 whitespace-nowrap text-center">Products</th>
+                            <th class="p-3.5 whitespace-nowrap text-center">Visible on Store</th>
                             <th class="p-3.5 text-right whitespace-nowrap">Actions</th>
                         </tr>
                     </thead>
@@ -165,6 +166,19 @@
                                         <span class="text-[9px] text-purple-400">items</span>
                                     </a>
                                 </td>
+                                <td class="p-3.5 text-center whitespace-nowrap">
+                                    <form action="{{ route('admin.categories.toggleActive', $category->id) }}" method="POST" class="inline-flex items-center gap-2"
+                                          data-active="{{ $category->is_active ? '1' : '0' }}"
+                                          data-confirm="Switch off &quot;{{ $category->name }}&quot;? It and its products will be hidden from the store until you switch it back on."
+                                          onsubmit="return this.dataset.active !== '1' || confirm(this.dataset.confirm);">
+                                        @csrf
+                                        <button type="submit" role="switch" aria-checked="{{ $category->is_active ? 'true' : 'false' }}" title="{{ $category->is_active ? 'On: click to hide from store' : 'Off: click to show on store' }}"
+                                                class="relative inline-flex h-6 w-11 items-center rounded-full transition {{ $category->is_active ? 'bg-emerald-500' : 'bg-slate-300' }}">
+                                            <span class="inline-block h-5 w-5 rounded-full bg-white shadow transition {{ $category->is_active ? 'translate-x-[22px]' : 'translate-x-0.5' }}"></span>
+                                        </button>
+                                        <span class="text-[11px] font-bold w-6 text-left {{ $category->is_active ? 'text-emerald-700' : 'text-slate-400' }}">{{ $category->is_active ? 'On' : 'Off' }}</span>
+                                    </form>
+                                </td>
                                 <td class="p-3.5 text-right whitespace-nowrap">
                                     <div class="inline-flex items-center gap-1.5">
                                         <a href="{{ route('admin.categories.edit', $category->id) }}" class="bg-purple-100 hover:bg-purple-200 text-purple-900 font-bold px-3 py-1.5 rounded-xl text-[11px] transition inline-flex items-center gap-1">
@@ -188,7 +202,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="p-12 text-center text-slate-500 font-medium">
+                                <td colspan="6" class="p-12 text-center text-slate-500 font-medium">
                                     <i class="bi bi-tags text-4xl text-amber-400 mb-2 block"></i>
                                     No categories found. Use the form on the left to create your first category.
                                 </td>

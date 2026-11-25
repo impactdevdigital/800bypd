@@ -17,7 +17,7 @@ class BundleController extends Controller
             ->orderBy('sort_order', 'asc')
             ->get();
 
-        $categories = Category::all();
+        $categories = Category::active()->get();
 
         return view('storefront.bundles', compact('bundles', 'categories'));
     }

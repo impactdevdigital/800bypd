@@ -48,6 +48,7 @@
             <i class="bi bi-grid-fill {{ !$activeCat ? 'text-sun' : 'text-grape' }}"></i> All Categories
         </a>
         @foreach($catPills as [$slug, $label, $tag, $img, $bg, $cover])
+            @continue(! \App\Models\Category::isSlugActive($slug))
             @php $isActive = $activeCat === $slug || ($slug === 'colouring-books' && $activeCat === 'coloring-books'); @endphp
             <a href="{{ route('catalog.index', $keep(['category' => $slug])) }}"
                class="h-12 pl-1.5 pr-5 rounded-full text-[13px] font-bold transition flex items-center gap-2.5 {{ $isActive ? 'bg-ink text-white' : 'bg-white text-ink shadow-soft hover:bg-lilac' }}">

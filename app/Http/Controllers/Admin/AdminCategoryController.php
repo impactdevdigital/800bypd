@@ -71,6 +71,7 @@ class AdminCategoryController extends Controller
             'slug' => 'required|string|max:255|unique:categories,slug,' . $category->id,
             'description' => 'nullable|string|max:1000',
             'parent_id' => 'nullable|exists:categories,id|not_in:' . $category->id,
+            'is_active' => 'nullable|boolean',
         ]);
 
         $slug = Str::slug($validated['slug']);
@@ -80,10 +81,24 @@ class AdminCategoryController extends Controller
             'slug' => $slug,
             'description' => $validated['description'] ?? null,
             'parent_id' => $validated['parent_id'] ?? null,
+            'is_active' => $request->boolean('is_active', $category->is_active),
         ]);
 
         return redirect()->route('admin.categories.index')
             ->with('success', "Category '{$category->name}' updated successfully!");
+    }
+
+    /**
+     * Switch a category on or off on the storefront (nothing is deleted).
+     */
+    public function toggleActive($id)
+    {
+        $category = Category::findOrFail($id);
+        $category->update(['is_active' => ! $category->is_active]);
+
+        return back()->with('success', $category->is_active
+            ? "Category '{$category->name}' is switched on and visible on the store."
+            : "Category '{$category->name}' is switched off and hidden from the store.");
     }
 
     public function destroy($id)

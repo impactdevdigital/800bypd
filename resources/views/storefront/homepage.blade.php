@@ -61,6 +61,7 @@
                     </div>
                     <div class="grid grid-cols-4 gap-2 sm:gap-3">
                         @foreach($heroItems as [$item, $tag, $bg, $fallbackSlug, $fallbackName])
+                            @continue(! $item)
                             <a href="{{ route('catalog.show', $item?->slug ?? $fallbackSlug) }}" class="group bg-white rounded-2xl p-1.5 shadow-soft hover:shadow-lift transition">
                                 <div class="aspect-square rounded-xl {{ $bg }} flex items-center justify-center p-1.5 overflow-hidden">
                                     <img src="{{ $item?->card_image_url ?? asset('images/products/placeholder.svg') }}" alt="{{ $item?->name ?? $fallbackName }}" class="card-img max-h-full max-w-full object-contain rounded" onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
@@ -104,6 +105,7 @@
     @endphp
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
         @foreach($categoryTiles as [$slug, $name, $age, $tag, $desc, $cta, $img, $bg, $cover])
+            @continue(! \App\Models\Category::isSlugActive($slug))
             <a href="{{ route('catalog.index', ['category' => $slug]) }}" class="group block">
                 <div class="aspect-[4/5] rounded-[24px] overflow-hidden {{ $bg }} relative {{ $cover ? '' : 'flex items-center justify-center p-6' }}">
                     <img src="{{ str_ends_with($img, '.jpg') ? \App\Support\Img::sm($img) : asset('images/products/' . $img) }}" alt="{{ $name }}" loading="lazy" class="card-img {{ $cover ? 'absolute inset-0 w-full h-full object-cover' : 'w-full h-full object-contain drop-shadow-xl' }}">

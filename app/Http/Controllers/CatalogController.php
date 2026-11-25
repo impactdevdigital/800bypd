@@ -10,7 +10,7 @@ class CatalogController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::with(['primaryImage', 'images', 'category', 'variants'])->where('is_active', true);
+        $query = Product::with(['primaryImage', 'images', 'category', 'variants'])->where('is_active', true)->inActiveCategory();
 
         // Filter by category
         if ($request->filled('category')) {
@@ -18,9 +18,11 @@ class CatalogController extends Controller
             $slugs = in_array($catSlug, ['colouring-books', 'coloring-books'])
                 ? ['colouring-books', 'coloring-books']
                 : [$catSlug];
-            $category = Category::whereIn('slug', $slugs)->first();
+            $category = Category::active()->whereIn('slug', $slugs)->first();
             if ($category) {
                 $query->where('category_id', $category->id);
+            } else {
+                $query->whereRaw('1 = 0'); // unknown or switched-off category
             }
         }
 
@@ -72,7 +74,7 @@ class CatalogController extends Controller
         }
 
         $products = $query->paginate(12)->withQueryString();
-        $categories = Category::all();
+        $categories = Category::active()->get();
 
         return view('storefront.catalog', compact('products', 'categories'));
     }
@@ -81,13 +83,13 @@ class CatalogController extends Controller
     {
         $productQuery = Product::with(['primaryImage', 'images', 'category', 'reviews', 'variants'])->where('slug', $slug);
         if (!auth()->check() || !auth()->user()->isAdmin()) {
-            $productQuery->where('is_active', true);
+            $productQuery->where('is_active', true)->inActiveCategory();
         }
         $product = $productQuery->firstOrFail();
         $relatedProducts = Product::with(['primaryImage', 'images', 'category', 'variants'])
             ->where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
-            ->where('is_active', true)
+            ->where('is_active', true)->inActiveCategory()
             ->take(4)
             ->get();
 

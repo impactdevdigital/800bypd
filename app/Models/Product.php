@@ -50,6 +50,16 @@ class Product extends Model
         return $this->sale_price ? '₦' . number_format($this->price, 2) : null;
     }
 
+    /**
+     * Products customers may see: not in a switched-off category.
+     */
+    public function scopeInActiveCategory($query) {
+        return $query->where(function ($q) {
+            $q->whereNull('category_id')
+              ->orWhereHas('category', fn ($c) => $c->where('is_active', true));
+        });
+    }
+
     public function isPuzzle(): bool {
         return optional($this->category)->slug === 'jigsaw-puzzles';
     }

@@ -78,7 +78,7 @@ class CartService
      */
     public function addProduct(int $productId, int $quantity = 1, ?int $variantId = null): array
     {
-        $product = Product::with(['primaryImage', 'images', 'category', 'variants'])->where('is_active', true)->findOrFail($productId);
+        $product = Product::with(['primaryImage', 'images', 'category', 'variants'])->where('is_active', true)->inActiveCategory()->findOrFail($productId);
         $cart = $this->getCart();
 
         $variant = null;

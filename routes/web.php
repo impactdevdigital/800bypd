@@ -85,6 +85,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Category Management Resource Routes
     Route::resource('categories', AdminCategoryController::class)->except(['show']);
+    Route::post('categories/{id}/toggle-active', [AdminCategoryController::class, 'toggleActive'])->name('categories.toggleActive');
 
     // Product Bundles Management Routes
     Route::resource('bundles', AdminBundleController::class);
