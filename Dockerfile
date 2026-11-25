@@ -48,7 +48,7 @@ RUN php artisan storage:link || true
 RUN chmod -R 777 storage bootstrap/cache
 
 CMD php artisan config:clear && \
-    php artisan storage:link || true && \
+    ([ -e public/storage ] || php artisan storage:link || true) && \
     php artisan migrate --force && \
     php artisan db:seed --force && \
     php artisan config:cache && \
